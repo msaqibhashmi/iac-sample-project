@@ -1,0 +1,48 @@
+{
+  "variables": {
+    "region": "us-east-1",
+    "ssh_username": "ec2-user",
+    "base_ami": "ami-062f7200baf2fa504",
+    "instance_type": "t2.micro",
+    "team": "Devops"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "{{user `region`}}",
+      "source_ami": "{{user `base_ami`}}",
+      "instance_type": "{{user `instance_type`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ami_name": "demo-project-{{timestamp}}",
+      "associate_public_ip_address": true,
+      "subnet_filter": {
+        "most_free": true,
+        "random": false,
+        "filters": {
+          "tag:Team": "{{user `team`}}"
+        }
+      },
+      "tags": {
+        "Name": "static-demo-sa01web-v1"
+      }
+    }
+
+  ],
+  "provisioners": [
+
+  {
+    "type": "shell",
+    "inline": [
+      "sudo su -",
+      "sudo amazon-linux-extras install ansible2",
+      "cd /etc/ansible"
+    ]
+  },
+
+  {
+    "type": "ansible-local",
+    "playbook_file": "../ansible/playbook.yml",
+    "playbook_dir": "../ansible"
+  }
+ ]
+}
