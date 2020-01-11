@@ -13,7 +13,7 @@
       "source_ami": "{{user `base_ami`}}",
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "{{user `ssh_username`}}",
-      "ami_name": "demo-project-{{timestamp}}",
+      "ami_name": "demo-web-vVERSION-{{timestamp}}",
       "associate_public_ip_address": true,
       "subnet_filter": {
         "most_free": true,
@@ -23,7 +23,7 @@
         }
       },
       "tags": {
-        "Name": "static-demo-sa01web-v1"
+        "Name": "demo-web-vVERSION"
       }
     }
 
@@ -41,8 +41,9 @@
 
   {
     "type": "ansible-local",
-    "playbook_file": "../ansible/playbook.yml",
-    "playbook_dir": "../ansible"
+    "playbook_file": "ansible/playbook.yml",
+    "playbook_dir": "ansible"
   }
  ]
 }
+
